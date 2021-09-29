@@ -1,6 +1,8 @@
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Restaurant {
     private final String name;
@@ -77,6 +79,17 @@ public class Restaurant {
     }
 
     public int getOrderValue(List<String> items) {
-        return 1;
+        int orderValue;
+        Map<String, Integer> mappedMenu = new HashMap<>();
+
+        menu.forEach(item -> mappedMenu.put(
+                item.getName().toLowerCase(),
+                item.getPrice()));
+
+        orderValue = items.stream()
+                .filter(item -> mappedMenu.containsKey(item.toLowerCase()))
+                .mapToInt(item -> mappedMenu.get(item.toLowerCase())).sum();
+
+        return orderValue;
     }
 }
