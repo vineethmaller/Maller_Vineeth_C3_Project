@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -90,5 +92,40 @@ class RestaurantTest {
         assertTrue(outputStream.toString().contains(restaurant.getLocation()));
         assertTrue(outputStream.toString().contains(restaurant.getOpeningTime().toString()));
         assertTrue(outputStream.toString().contains(restaurant.getClosingTime().toString()));
+    }
+
+    @Test
+    void empty_order_should_return_zero_total() {
+        List<String> items = new ArrayList<>();
+
+        int actual = restaurant.getOrderValue(items);
+
+        assertEquals(0, actual);
+    }
+
+    @Test
+    void non_empty_order_should_return_non_zero_total() {
+        List<String> items = new ArrayList<>();
+        items.add("Sweet corn soup");
+        items.add("Vegetable lasagne");
+
+        int expected = 388;
+
+        int actual = restaurant.getOrderValue(items);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void order_containing_items_not_listed_in_menu_should_return_total_value_for_existing_items() {
+        List<String> items = new ArrayList<>();
+        items.add("French fries");
+        items.add("Vegetable lasagne");
+
+        int expected = 269;
+
+        int actual = restaurant.getOrderValue(items);
+
+        assertEquals(expected, actual);
     }
 }

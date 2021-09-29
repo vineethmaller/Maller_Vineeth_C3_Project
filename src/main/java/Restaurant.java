@@ -75,4 +75,8 @@ public class Restaurant {
     public LocalTime getClosingTime() {
         return closingTime;
     }
+
+    public int getOrderValue(List<String> items) {
+        return 1;
+    }
 }
